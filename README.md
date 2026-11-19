@@ -2,24 +2,83 @@
 
 Kumpulan tugas, praktikum, dan latihan **Visual Basic .NET (Windows Forms)** pada mata kuliah Visual Programming.
 
-## Struktur Folder & Project
+> **Referensi Materi Dosen:** [USU Digital Class — Visual Programming](https://kelas.usu.ac.id/course/index.php?categoryid=1530) *(memerlukan login akun SSO USU; ringkasan deskripsi dan teori di bawah disusun berdasarkan implementasi kode pada masing-masing folder)*.
 
-| Folder | Isi / Topik Project |
+---
+
+## Deskripsi & Teori Setiap Pertemuan
+
+### 1. Pertemuan 2 — Pengenalan Windows Forms & Kontrol Dasar (`pertemuan2/vispro1`)
+- **Implementasi:** Form input data mahasiswa sederhana (Nama, NIM, KOM) dengan tombol tampilkan pesan (`MessageBox.Show`) dan tombol reset/clear input.
+- **Teori & Konsep:**
+  - Struktur dasar aplikasi **Windows Forms** (`Form`, event `Click` pada `Button`).
+  - Penggunaan kontrol input dasar: `TextBox`, `ComboBox`, dan `Label`.
+  - Pengaturan fokus kursor (`Focus()`), pengosongan input (`Clear()`, `SelectedIndex = -1`), serta dialog pesan `MessageBox.Show`.
+
+### 2. Pertemuan 3 — Validasi Input & Event Handling (`vispro3/vispro3`)
+- **Implementasi:** Form validasi input angka menggunakan `Integer.TryParse` dan pembatasan karakter pada event `KeyPress`.
+- **Teori & Konsep:**
+  - **Event-driven programming:** menangani event `KeyPress` untuk memfilter karakter secara *real-time* (`Char.IsControl`, `Char.IsDigit`, `e.Handled = True`).
+  - Validasi tipe data aman menggunakan `Integer.TryParse` agar aplikasi tidak *crash* saat input bukan angka.
+
+### 3. Pertemuan 5 — Prosedur, Fungsi, Module & Array (`pertemuan5/pertemuan5`)
+- **Implementasi:** Penggunaan `Module` (`ModArray.vb`) berisi `Sub` (`TampilkanPesan`), `Function` (`hitung`), array 1 dimensi (`nilai()`), dan array 2 dimensi (`nilai2D(,)`), serta form `FrmArray`.
+- **Teori & Konsep:**
+  - Modularisasi kode dengan `Module`, perbedaan `Sub` (tanpa nilai balik) dan `Function` (mengembalikan nilai dengan `Return`).
+  - Percabangan `If...Else` di dalam fungsi.
+  - Struktur data **Array 1D** dan **Array 2D** beserta pengaksesan elemen berdasarkan indeks baris dan kolom.
+
+### 4. Pertemuan 6 — Koneksi Database PostgreSQL & CRUD (`pertemuan6/pertemuan6`)
+- **Implementasi:** Aplikasi manajemen data mahasiswa terhubung ke **PostgreSQL** menggunakan `Npgsql` dan konfigurasi `appsettings.json` (`modDatabase.vb`, `modFunction.vb`, `ModQuery.vb`, `Form1.vb`).
+- **Teori & Konsep:**
+  - Konfigurasi *connection string* eksternal menggunakan `Microsoft.Extensions.Configuration` (`appsettings.json`).
+  - Koneksi database ADO.NET (`NpgsqlConnection`, `NpgsqlCommand`, `NpgsqlDataAdapter`) dan penggunaan `Using` block untuk manajemen resource otomatis.
+  - **Parameterized Query** (`@nim`, `@nama`, `@jurusan`) untuk mencegah *SQL Injection*.
+  - Menampilkan data dari `DataTable` ke kontrol `DataGridView`.
+
+### 5. Pertemuan 7 — Konversi Tipe Data & Penanganan Error (`pertemuan7/pertemuan7`)
+- **Implementasi:** Form utama (`FrmUtama`) yang membuka `FrmUjiKonversi` untuk membandingkan perilaku `CInt`, `Val`, dan konversi yang aman.
+- **Teori & Konsep:**
+  - Pengaktifan `Option Strict On` untuk menegakkan *type safety* pada waktu kompilasi.
+  - Perbandingan metode konversi: `CInt()` (melempar `InvalidCastException` jika gagal), `Val()` (mengembalikan `0` atau angka parsial tanpa error), dan `TryParse`.
+  - Navigasi antar-form menggunakan `ShowDialog()` (modal form).
+
+### 6. Pertemuan 8 — Koleksi Data: Array, `List(Of T)`, `DataTable` & Pencarian (`pertemuan8/DataMahasiswa`)
+- **Implementasi:** Aplikasi `DataMahasiswa` dengan beberapa form demonstrasi: `FrmDariArray`, `FrmDariList`, `FrmCariList`, `FrmDataTable`, class model `Mahasiswa`, serta modul `ModDataContoh` dan `ModPencarian`.
+- **Teori & Konsep:**
+  - Pemodelan data berbasis objek (**OOP dasar**: class `Mahasiswa` dengan `Property` dan `Constructor`).
+  - Perbandingan sumber data untuk `DataGridView`: **Array 2D**, **`List(Of Mahasiswa)`**, dan **`DataTable`**.
+  - Penggunaan `BindingSource` sebagai perantara data dan UI.
+  - Teknik pencarian/filtering: perulangan manual pada `List(Of T)` vs `BindingSource.Filter` pada `DataTable` (termasuk sanitasi karakter khusus filter `'`, `[`, `]`, `*`, `%` di `ModPencarian`).
+
+### 7. Pertemuan 11 — Windows API (P/Invoke), Global Hotkey & Asisten Presentasi
+- **Implementasi:**
+  - `Pertemuan11/Pertemuan11`: Project WinForms berisi `frmAsistenPresentasi`, `FrmDemoApi`, dan `ModWindowsApi`.
+  - `Pertemuan11/DemoWindowsApi`: Project standalone timer/asisten presentasi dengan `Program.vb` dan pemanggilan Windows API.
+- **Teori & Konsep:**
+  - **Platform Invoke (P/Invoke):** memanggil fungsi native Windows API (DLL eksternal) melalui `System.Runtime.InteropServices`.
+  - Pendaftaran **Global Hotkey** (`RegisterHotKey`, pesan `WM_HOTKEY`, konstanta modifier `MOD_CONTROL`, `MOD_ALT`, `MOD_NOREPEAT`, virtual key `VK_F9`, `VK_F10`).
+  - Pengaturan posisi jendela (*Always on Top* / `SWP_NOSIZE`, `SWP_NOMOVE`) dan pengelolaan state timer menggunakan `ULong` / `IntPtr`.
+
+### 8. Pertemuan 12 — Multiple Document Interface / MDI (`Pertemuan12/kode/AdministrasiMahasiswaMdi`)
+- **Implementasi:** Aplikasi **Administrasi Mahasiswa MDI** dengan form induk `FrmUtama` serta form anak `FrmMahasiswa` (tabel `DataGridView`), `FrmJurusan` (`ListBox`), dan `FrmTentang`. *(Folder `Pertemuan11/Pertemuan12` berisi template form awal).*
+- **Teori & Konsep:**
+  - Arsitektur **MDI (Multiple Document Interface)**: satu form induk (`IsMdiContainer = True`) yang menampung beberapa child form (`MdiParent = Me`).
+  - Manajemen instance child form (`Me.MdiChildren`, `TypeOf ... Is ...`, mengembalikan window yang diminimalkan dengan `WindowState = FormWindowState.Normal`, dan `Activate()`).
+
+---
+
+## Deskripsi Tugas & Praktikum
+
+| Folder | Topik & Teori yang Diterapkan |
 |---|---|
-| `pertemuan2/vispro1` | Aplikasi Windows Forms dasar (`vispro1`) |
-| `vispro3/vispro3` | Latihan kontrol & gambar (`vispro3`) |
-| `pertemuan5/pertemuan5` | Array & modul (`FrmArray`, `ModArray`) |
-| `pertemuan6/pertemuan6` | Koneksi database & query (`modDatabase`, `ModQuery`, `appsettings.json`) |
-| `pertemuan7/pertemuan7` | Uji konversi & form utama (`FrmUjiKonversi`, `FrmUtama`) |
-| `pertemuan8/DataMahasiswa` | Pengolahan data mahasiswa (List & DataTable) |
-| `Pertemuan11/Pertemuan11` | Asisten presentasi & Windows API (`frmAsistenPresentasi`, `FrmDemoApi`, `ModWindowsApi`) |
-| `Pertemuan11/DemoWindowsApi` | Project standalone demo Windows API (`FrmDemoApi`, `ModWindowsApi`, `Program`) |
-| `Pertemuan12/kode/AdministrasiMahasiswaMdi` | Aplikasi MDI Administrasi Mahasiswa (`FrmUtama`, `FrmMahasiswa`, `FrmJurusan`, `FrmTentang`) |
-| `PrakT2/Tugas2` | Praktikum Tugas 2 — Peminjaman Buku (`frmPeminjamanBuku`, `ModuleValidasi`, `peminjaman.csv`) |
-| `PrakT3/T3` | Praktikum Tugas 3 — Inventaris Buku (`frmInventarisBuku`) |
-| `T5/T5` | Tugas 5 — Penyewaan Mobil (`Form1`, `ModSewa`, `assets/`) |
-| `T7/Perulangan` | Tugas 7 — Perulangan (`Form1`, `Form2`) |
-| `remedial/Remedial_UTS` | Remedial UTS — Peminjaman Alat Lab (`FrmPeminjamanAlat`, `AlatLab`, `ModInventaris`) |
+| `PrakT2/Tugas2` | **Peminjaman Buku:** Validasi input terpisah di `ModuleValidasi`, pengelolaan daftar kode buku dengan `List(Of String)`, dan penyimpanan/pembacaan data CSV (`System.IO`, `peminjaman.csv`). |
+| `PrakT3/T3` | **Inventaris Buku:** Pengelolaan data buku menggunakan `DataTable` di memori (tambah, tampil, dan manipulasi baris data buku). |
+| `T5/T5` | **Penyewaan Mobil:** Penggunaan `ComboBox` untuk memilih jenis mobil, pemuatan gambar dinamis dari folder `assets/` ke `PictureBox` (`Image.FromFile`), serta perhitungan tarif sewa di `ModSewa`. |
+| `T7/Perulangan` | **Perulangan (`For...Next`):** Penerapan loop naik dan mundur untuk menghasilkan tabel perkalian dan deret ke dalam `ListBox`, disertai validasi `Integer.TryParse`. |
+| `remedial/Remedial_UTS` | **Peminjaman Alat Lab:** Kombinasi OOP (`AlatLab`), `List(Of AlatLab)`, array & `Select Case` pada `ModInventaris`, serta manajemen stok tersedia dan dipinjam pada `FrmPeminjamanAlat`. |
+
+---
 
 ## Langkah Pengerjaan & Perapian Repository
 
