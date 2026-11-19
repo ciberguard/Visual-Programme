@@ -1,0 +1,23 @@
+# Visual Studio & .NET build outputs
+.vs/
+bin/
+obj/
+Debug/
+Release/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.slnx.docstates
+
+# Archive backups
+*.zip
+archives/
+
+# Visual Studio local user folders
+Visual Studio 18/
+Visual Studio 2022/
+
+# OS / Editor temp files
+Thumbs.db
+.DS_Store
